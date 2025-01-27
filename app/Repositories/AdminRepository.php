@@ -15,12 +15,12 @@ class AdminRepository
 
     public function findAll()
     {
-        return $this->db->fetchAll("SELECT * FROM admins");
+        return $this->db->fetchAll("SELECT id, nome, email FROM admins");
     }
 
     public function findById($id)
     {
-        $query = "SELECT * FROM admins WHERE id = :id";
+        $query = "SELECT id, nome, email FROM admins WHERE id = :id";
         $stmt  = $this->db->query($query, ['id' => $id]);
         
         return $stmt->fetch();
@@ -38,19 +38,29 @@ class AdminRepository
     {
         return $this->db->execute(
             "INSERT INTO admins (nome, email, senha, created_at, updated_at) 
-            VALUES (:name, :email, :password, NOW(), NOW())",
+            VALUES (:nome, :email, :senha, NOW(), NOW())",
             $data
         );
     }
 
     public function update($id, array $data)
     {
-        return $this->db->execute(
-            "UPDATE admins 
-            SET nome = :name, email = :email, senha = :password, updated_at = NOW() 
-            WHERE id = :id",
-            array_merge($data, ['id' => $id])
-        );
+        $fields = "nome = :nome, email = :email, updated_at = NOW()";
+
+        $params = [
+            'nome'  => $data['nome'],
+            'email' => $data['email'],
+            'id'    => $id
+        ];
+    
+        if (!empty($data['senha'])) {
+            $fields         .= ", senha = :senha";
+            $params['senha'] = $data['senha'];
+        }
+    
+        $query = "UPDATE admins SET $fields WHERE id = :id";
+
+        return $this->db->execute($query, $params);
     }
 
     public function delete($id)

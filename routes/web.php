@@ -6,10 +6,11 @@ use App\Controllers\ClientController;
 use App\Controllers\DashboardController;
 use App\Middleware\AuthMiddleware;
 
-// Login
+// Auth
 
 $router->get('/admin/login', [AuthController::class, 'loginForm']);
 $router->post('/admin/login', [AuthController::class, 'login']);
+$router->post('/admin/logout', [AuthController::class, 'logout']);
 
 // Home
 
@@ -32,3 +33,13 @@ $router->delete('/admin/clients/{id}', [ClientController::class, 'destroy'], [Au
 // Admins
 
 $router->get('/admin/users', [AdminController::class, 'index'], [AuthMiddleware::class, 'handle']);
+
+$router->get('/admin/users/create', [AdminController::class, 'create'], [AuthMiddleware::class, 'handle']);
+$router->post('/admin/users/store', [AdminController::class, 'store'], [AuthMiddleware::class, 'handle']);
+
+$router->get('/admin/users/edit/{id}', [AdminController::class, 'edit'], [AuthMiddleware::class, 'handle']);
+$router->patch('/admin/users/edit/{id}', [AdminController::class, 'update'], [AuthMiddleware::class, 'handle']);
+
+$router->get('/admin/users/{id}', [AdminController::class, 'show'], [AuthMiddleware::class, 'handle']);
+
+$router->delete('/admin/users/{id}', [AdminController::class, 'destroy'], [AuthMiddleware::class, 'handle']);

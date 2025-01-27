@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Painel Administrativo - Dashboard</title>
+	<title>Painel Administrativo - Visualizar Admin</title>
 
 	<link rel="icon" href="/assets/images/favicon-32x32.png" type="image/png" />
 
@@ -21,7 +21,7 @@
 
 <body>
 	<div class="wrapper">
-		<div class="sidebar-wrapper" data-simplebar="true">
+        <div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div class="">
 					<img src="/assets/images/logo-icon.png" class="logo-icon-2" alt="" />
@@ -64,11 +64,6 @@
 
 		<header class="top-header">
 			<nav class="navbar navbar-expand">
-				<div class="left-topbar d-flex align-items-center">
-					<a href="javascript:;" class="toggle-btn">	<i class="bx bx-menu"></i>
-					</a>
-				</div>
-
 				<div class="right-topbar ms-auto">
 					<ul class="navbar-nav">
 						<li class="nav-item dropdown dropdown-user-profile">
@@ -82,7 +77,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
 								<div class="dropdown-divider mb-0"></div>
-									<a class="dropdown-item" href="javascript:void(0);" id="logoutAdmin">
+									<a class="dropdown-item" href="javascript:;" id="logoutAdmin">
 										<i class="bx bx-power-off"></i><span>Logout</span>
 									</a>
 								</div>
@@ -92,6 +87,40 @@
 				</div>
 			</nav>
 		</header>
+		<div class="page-wrapper">
+			<div class="page-content-wrapper">
+				<div class="page-content">
+					<div class="card">
+						<div class="card-body">
+							<div class="card-title d-flex justify-content-between">
+								<h4 class="mb-0">Visualizar Admin</h4>
+							</div>
+							<hr/>
+
+                            <div class="container mt-5">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Detalhes do Admin
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">Nome: <?= $admin['nome'] ?></li>
+
+                                                    <li class="list-group-item">Email: <?= $admin['email'] ?></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="overlay toggle-btn-mobile"></div>
 
@@ -99,7 +128,7 @@
 			<p class="mb-0">Painel Administrativo @2025</p>
 		</div>
 	</div>
-	
+
 	<script src="/assets/js/bundle.js"></script>
 
 	<script src="/assets/js/app.js"></script>

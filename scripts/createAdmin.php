@@ -28,13 +28,12 @@ $adminExists = $adminService->getAdminByEmail($adminEmail);
 if ($adminExists) {
     echo "O administrador padrão já existe.\n";
 } else {
-    $hashedPassword = password_hash($adminPassword, PASSWORD_BCRYPT);
 
     $adminService->createAdmin(
         [
-            'name'     => $adminName,
-            'email'    => $adminEmail,
-            'password' => $hashedPassword,
+            'nome'  => $adminName,
+            'email' => $adminEmail,
+            'senha' => $adminPassword,
         ]
     );
 

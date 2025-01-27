@@ -117,17 +117,17 @@ class ClientRepository
     
             $data['cpf']      = preg_replace('/\D/', '', $data['cpf']);
             $data['telefone'] = preg_replace('/\D/', '', $data['telefone']);
-    
+
             $this->db->execute(
-                "UPDATE clientes SET nome = :name, data_nascimento = :birth_date, cpf = :cpf, rg = :rg, telefone = :phone, updated_at = NOW()
+                "UPDATE clientes SET nome = :nome, data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, telefone = :telefone, updated_at = NOW()
                 WHERE id = :id",
                 [
-                    ':name'       => $data['nome'],
-                    ':birth_date' => $data['data_nascimento'],
-                    ':cpf'        => $data['cpf'],
-                    ':rg'         => $data['rg'],
-                    ':phone'      => $data['telefone'],
-                    ':id'         => $id,
+                    ':nome'            => $data['nome'],
+                    ':data_nascimento' => $data['data_nascimento'],
+                    ':cpf'             => $data['cpf'],
+                    ':rg'              => $data['rg'],
+                    ':telefone'        => $data['telefone'],
+                    ':id'              => $id,
                 ]
             );
     

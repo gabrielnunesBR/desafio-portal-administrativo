@@ -46,4 +46,24 @@ class AuthController
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
+
+    public function logout()
+    {
+        try {
+            session_start();
+
+            if (isset($_SESSION['access_token'])) {
+                unset($_SESSION['access_token']);
+            }
+
+            session_destroy();
+
+            http_response_code(200);
+            echo json_encode(['message' => 'Logout realizado com sucesso.']);
+
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
 }

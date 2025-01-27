@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\AdminRepository;
+use App\Validators\AdminValidator;
 
 class AdminService
 {
@@ -30,11 +31,21 @@ class AdminService
 
     public function createAdmin(array $data)
     {
+        AdminValidator::validate($data);
+
+        $data['senha'] = password_hash($data['senha'], PASSWORD_BCRYPT);
+
         return $this->adminRepository->create($data);
     }
 
     public function updateAdmin($id, array $data)
     {
+        AdminValidator::validate($data, true);
+
+        if (array_key_exists('senha', $data)) {
+            $data['senha'] = password_hash($data['senha'], PASSWORD_BCRYPT);
+        }
+
         return $this->adminRepository->update($id, $data);
     }
 

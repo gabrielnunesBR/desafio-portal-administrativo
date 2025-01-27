@@ -77,7 +77,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
 								<div class="dropdown-divider mb-0"></div>
-									<a class="dropdown-item" href="javascript:;">
+									<a class="dropdown-item" href="javascript:;" id="logoutAdmin">
 										<i class="bx bx-power-off"></i><span>Logout</span>
 									</a>
 								</div>
@@ -388,6 +388,42 @@
 						});
 					}
 				});
+			});
+		});
+
+		$(document).on('click', '#logoutAdmin', function () {
+			Swal.fire({
+				title: 'Você tem certeza?',
+				text: "Deseja realmente sair?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Sim, sair!',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: '/admin/logout',
+						type: 'POST',
+						success: function (response) {
+							Swal.fire(
+								'Desconectado!',
+								'Você foi desconectado com sucesso.',
+								'success'
+							).then(() => {
+								window.location.href = '/admin/login';
+							});
+						},
+						error: function (xhr) {
+							Swal.fire(
+								'Erro!',
+								'Ocorreu um erro ao tentar desconectar.',
+								'error'
+							);
+						}
+					});
+				}
 			});
 		});
 

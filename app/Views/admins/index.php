@@ -80,7 +80,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
 								<div class="dropdown-divider mb-0"></div>
-									<a class="dropdown-item" href="javascript:;">
+									<a class="dropdown-item" href="javascript:;" id="logoutAdmin">
 										<i class="bx bx-power-off"></i><span>Logout</span>
 									</a>
 								</div>
@@ -119,7 +119,7 @@
                                                 <td>
                                                     <a href="/admin/users/<?= $admin['id']; ?>" class="btn btn-sm btn-info me-3">Visualizar</a>
                                                     <a href="/admin/users/edit/<?= $admin['id']; ?>" class="btn btn-sm btn-warning me-3">Editar</a>
-													<a href="javascript:void(0);" class="btn btn-sm btn-danger delete-client" data-id="<?= $admin['id']; ?>">Excluir</a>
+													<a href="javascript:void(0);" class="btn btn-sm btn-danger delete-admin" data-id="<?= $admin['id']; ?>">Excluir</a>
 												</td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -140,7 +140,7 @@
 	</div>
 
 	<script src="/assets/js/bundle.js"></script>
-	
+
 	<!--Data Tables js-->
 	<script src="/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
 
@@ -167,8 +167,95 @@
                         "sSortAscending":  ": Ordenar colunas de forma ascendente",
                         "sSortDescending": ": Ordenar colunas de forma descendente"
                     }
-                }
+                },
+
+				order: [[0, 'desc']]
             });
+		});
+
+		$(document).on('click', '.delete-admin', function () {
+			const adminId  = $(this).data('id');
+			const row      = $(this).closest('tr');
+			const table    = $('#table-admins').DataTable();
+
+			Swal.fire({
+				title: 'Tem certeza?',
+				text: "Esta ação não pode ser desfeita!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#d33',
+				cancelButtonColor: '#3085d6',
+				confirmButtonText: 'Sim, excluir!',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					Swal.fire({
+						title: 'Excluindo...',
+						text: 'Por favor, aguarde',
+						allowOutsideClick: false,
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					});
+
+					$.ajax({
+						url: `/admin/users/${adminId}`,
+						type: 'DELETE',
+						success: function (response) {
+							table.row(row).remove().draw();
+
+							Swal.fire(
+								'Excluído!',
+								'O admin foi excluído com sucesso.',
+								'success'
+							);
+						},
+						error: function (xhr) {
+							Swal.fire(
+								'Erro!',
+								'Não foi possível excluir o admin. Tente novamente.',
+								'error'
+							);
+						}
+					});
+				}
+			});
+		});
+
+		$(document).on('click', '#logoutAdmin', function () {
+			Swal.fire({
+				title: 'Você tem certeza?',
+				text: "Deseja realmente sair?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Sim, sair!',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: '/admin/logout',
+						type: 'POST',
+						success: function (response) {
+							Swal.fire(
+								'Desconectado!',
+								'Você foi desconectado com sucesso.',
+								'success'
+							).then(() => {
+								window.location.href = '/admin/login';
+							});
+						},
+						error: function (xhr) {
+							Swal.fire(
+								'Erro!',
+								'Ocorreu um erro ao tentar desconectar.',
+								'error'
+							);
+						}
+					});
+				}
+			});
 		});
 	</script>
 

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Painel Administrativo - Dashboard</title>
+	<title>Painel Administrativo - Adicionar Admin</title>
 
 	<link rel="icon" href="/assets/images/favicon-32x32.png" type="image/png" />
 
@@ -21,7 +21,7 @@
 
 <body>
 	<div class="wrapper">
-		<div class="sidebar-wrapper" data-simplebar="true">
+        <div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div class="">
 					<img src="/assets/images/logo-icon.png" class="logo-icon-2" alt="" />
@@ -64,11 +64,6 @@
 
 		<header class="top-header">
 			<nav class="navbar navbar-expand">
-				<div class="left-topbar d-flex align-items-center">
-					<a href="javascript:;" class="toggle-btn">	<i class="bx bx-menu"></i>
-					</a>
-				</div>
-
 				<div class="right-topbar ms-auto">
 					<ul class="navbar-nav">
 						<li class="nav-item dropdown dropdown-user-profile">
@@ -82,7 +77,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-end">
 								<div class="dropdown-divider mb-0"></div>
-									<a class="dropdown-item" href="javascript:void(0);" id="logoutAdmin">
+									<a class="dropdown-item" href="javascript:;" id="logoutAdmin">
 										<i class="bx bx-power-off"></i><span>Logout</span>
 									</a>
 								</div>
@@ -92,6 +87,59 @@
 				</div>
 			</nav>
 		</header>
+		<div class="page-wrapper">
+			<div class="page-content-wrapper">
+				<div class="page-content">
+					<div class="card">
+						<div class="card-body">
+							<div class="card-title d-flex justify-content-between">
+								<h4 class="mb-0">Adicionar Admin</h4>
+							</div>
+
+							<hr/>
+
+							<form id="adminForm" class="row g-3">
+								<div class="card border-top border-0 border-4 border-info">
+									<div class="card-body">
+										<div class="border p-4 rounded">
+											<div class="row mb-3">
+												<label for="inputNome" class="col-sm-3 col-form-label">Nome</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control" id="inputNome" placeholder="Nome" maxlength="255" required>
+												</div>
+											</div>
+
+											<div class="row mb-3">
+												<label for="inputEmail" class="col-sm-3 col-form-label">E-mail</label>
+												<div class="col-sm-9">
+													<input type="email" class="form-control" id="inputEmail" placeholder="E-mail" maxlength="255" required>
+												</div>
+											</div>
+
+											<div class="row mb-3">
+												<label for="inputSenha" class="col-sm-3 col-form-label">Senha</label>
+												<div class="col-sm-9">
+													<input type="password" class="form-control" id="inputSenha" placeholder="Senha" minlength="6" maxlength="255" required>
+												</div>
+											</div>
+
+											<div class="row mb-3"></div>
+											<div class="row mb-3"></div>
+
+											<div class="row mt-6"> 
+												<div> 
+													<button type="submit" class="btn btn-primary">Cadastrar</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="overlay toggle-btn-mobile"></div>
 
@@ -99,12 +147,46 @@
 			<p class="mb-0">Painel Administrativo @2025</p>
 		</div>
 	</div>
-	
+
 	<script src="/assets/js/bundle.js"></script>
 
-	<script src="/assets/js/app.js"></script>
-
 	<script>
+		$(document).ready(function () {
+
+			$('#adminForm').on('submit', function (e) {
+				e.preventDefault();
+
+				const adminData = {
+					nome: $('#inputNome').val(),
+					email: $('#inputEmail').val(),
+					senha: $('#inputSenha').val(),
+				};
+
+				$.ajax({
+					url: '/admin/users/store',
+					method: 'POST',
+					data: adminData,
+					dataType: 'json',
+					success: function (response) {
+						Swal.fire({
+							icon: 'success',
+							title: 'Sucesso!',
+							text: response.message || 'Admin cadastrado com sucesso.',
+							confirmButtonText: 'Ok'
+						}).then(() => window.location.reload());
+					},
+					error: function (xhr) {
+						Swal.fire({
+							icon: 'error',
+							title: 'Erro!',
+							text: xhr.responseJSON?.error || 'Ocorreu um erro ao cadastrar o admin.',
+							confirmButtonText: 'Ok'
+						});
+					}
+				});
+			});
+		});
+
 		$(document).on('click', '#logoutAdmin', function () {
 			Swal.fire({
 				title: 'Você tem certeza?',
@@ -140,7 +222,10 @@
 				}
 			});
 		});
+
 	</script>
+
+	<script src="/assets/js/app.js"></script>
 </body>
 
 </html>
