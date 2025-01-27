@@ -68,9 +68,9 @@ docker-compose up --build
 php_app | 2025/01/27 11:03:32 Problem with dial: dial tcp 172.22.0.2:3306: connect: connection refused. Sleeping 1s
 ```
 
-#### Isso indica que o contêiner está aguardando a inicialização do banco de dados.
+#### Isso indica que o container está aguardando a inicialização do banco de dados.
 
-#### Quando você visualizar uma mensagem semelhante a esta, isso indica que o banco de dados foi totalmente inicializado e está pronto para se comunicar com a aplicação.
+#### Quando você visualizar uma mensagem semelhante a esta abaixo, isso indica que o banco de dados foi totalmente inicializado e está pronto para se comunicar com a aplicação.
 
 ```bash
 php_app | 2025/01/27 11:04:14 Connected to tcp://db:3306
