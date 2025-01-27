@@ -1,0 +1,14 @@
+CREATE TABLE enderecos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    logradouro VARCHAR(255) NOT NULL,
+    numero VARCHAR(10) NOT NULL,
+    complemento VARCHAR(255),
+    bairro VARCHAR(255) NOT NULL,
+    cidade VARCHAR(255) NOT NULL,
+    estado CHAR(2) NOT NULL,
+    cep CHAR(8) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE
+);

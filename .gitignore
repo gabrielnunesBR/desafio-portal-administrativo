@@ -1,0 +1,5 @@
+/vendor
+/node_modules
+/public/assets/css/styles.css
+/public/assets/js/bundle.js
+/.env

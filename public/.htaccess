@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /
+
+# Redireciona / para /admin/dashboard
+RewriteRule ^$ /admin/dashboard [L,R=301]
+
+# Redireciona todas as requisições para o index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
