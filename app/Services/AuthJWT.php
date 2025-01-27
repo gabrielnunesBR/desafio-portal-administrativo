@@ -112,4 +112,26 @@ class AuthJWT implements AuthInterface
         }
         return null;
     }
+
+    public function getLoggedInAdminId(): ?int
+    {
+        try {
+
+            if (!isset($_SESSION['access_token']) || empty($_SESSION['access_token'])) {
+                return null;
+            }
+
+            $token   = $_SESSION['access_token'];
+            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
+
+            if (!isset($decoded->sub)) {
+                return null;
+            }
+
+            return (int) $decoded->sub;
+
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

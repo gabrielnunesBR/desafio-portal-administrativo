@@ -11,6 +11,7 @@ class AdminController
 {
     private $db;
     private $adminService;
+    private $loggedInAdminId;
     private $loggedInAdminName;
 
     public function __construct($db)
@@ -20,6 +21,7 @@ class AdminController
 
         $authJwt                 = new AuthJWT();
         $this->loggedInAdminName = $authJwt->getLoggedInAdminName();
+        $this->loggedInAdminId   = $authJwt->getLoggedInAdminId();
     }
 
     public function index()
@@ -86,12 +88,31 @@ class AdminController
     public function destroy($id)
     {
         try {
+            // Verifica se a sessão já está ativa antes de iniciar
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            $isLoggedOut = false;
+
+            // Verifica se o administrador logado é o mesmo que está sendo excluído
+            if ($this->loggedInAdminId == $id) {
+
+                if (isset($_SESSION['access_token'])) {
+                    unset($_SESSION['access_token']);
+                }
+
+                session_destroy();
+
+                $isLoggedOut = true;
+            }
 
             $this->adminService->deleteAdmin($id);
 
-            http_response_code(204);
+            http_response_code(200);
+            echo json_encode(['message' => 'Admin excluído com sucesso.', 'logged_out' => $isLoggedOut]);
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             http_response_code(500);
             echo json_encode(['error' => $e->getMessage()]);
         }

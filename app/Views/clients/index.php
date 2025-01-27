@@ -125,9 +125,21 @@
                                                     ?>
                                                 </td>
 
-                                                <td><?= htmlspecialchars($client['cpf']) ?></td>
+                                                <td>
+													<?php
+														$cpf = preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $client['cpf']);
+														echo htmlspecialchars($cpf);
+													?>	
+												</td>
+
                                                 <td><?= htmlspecialchars($client['rg']) ?></td>
-                                                <td><?= htmlspecialchars($client['telefone']) ?></td>
+
+                                                <td>
+													<?php
+														$telefone = preg_replace('/(\d{2})(\d{4,5})(\d{4})/', '($1) $2-$3', $client['telefone']);
+														echo htmlspecialchars($telefone);
+                                                    ?>
+												</td>
 
                                                 <td>
                                                     <a href="/admin/clients/<?= $client['id']; ?>" class="btn btn-sm btn-info me-3">Visualizar</a>

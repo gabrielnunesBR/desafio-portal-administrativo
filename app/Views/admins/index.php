@@ -202,13 +202,26 @@
 						url: `/admin/users/${adminId}`,
 						type: 'DELETE',
 						success: function (response) {
-							table.row(row).remove().draw();
 
-							Swal.fire(
-								'Excluído!',
-								'O admin foi excluído com sucesso.',
-								'success'
-							);
+							const responseData = JSON.parse(response);
+
+							if (responseData.logged_out) {
+								Swal.fire(
+									'Desconectado!',
+									'Você foi deslogado porque seu usuário foi excluído.',
+									'info'
+								).then(() => {
+									window.location.href = '/admin/login';
+								});
+							} else {
+								table.row(row).remove().draw();
+
+								Swal.fire(
+									'Excluído!',
+									'O admin foi excluído com sucesso.',
+									'success'
+								);
+							}
 						},
 						error: function (xhr) {
 							Swal.fire(
